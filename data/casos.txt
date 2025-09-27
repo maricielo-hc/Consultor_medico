@@ -1,0 +1,7 @@
+Ejemplo 1:
+  Síntomas: fiebre, tos, dificultad_respiratoria
+  Diagnóstico esperado: neumonía
+
+Ejemplo 2:
+  Síntomas: fiebre, dolor_muscular, anosmia
+  Diagnóstico esperado: covid
