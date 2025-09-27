@@ -1,12 +1,18 @@
 from pyswip import Prolog
-import os
+import os, sys
 
 class MotorExperto:
     def __init__(self):
         self.prolog = Prolog()
-        # Construir ruta absoluta a base_conocimiento.pl
-        ruta = os.path.join(os.path.dirname(__file__), "..", "prolog", "base_conocimiento.pl")
-        self.prolog.consult(os.path.abspath(ruta))
+
+        # Detectar si corre como .exe (PyInstaller) o normal
+        if getattr(sys, 'frozen', False):
+            base_path = sys._MEIPASS  # Carpeta temporal donde PyInstaller descomprime
+        else:
+            base_path = os.path.dirname(__file__)  # Carpeta del script Python
+
+        ruta = os.path.join(base_path, "prolog", "base_conocimiento.pl")
+        self.prolog.consult(ruta)
 
     def agregar_sintoma(self, sintoma):
         """Agrega un síntoma a Prolog"""
