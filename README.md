@@ -61,15 +61,29 @@ Puedes descargar la versión ejecutable (`.exe`) directamente desde el siguiente
 ```
 Consultor_medico/
 │
-├── python/
-│   ├── app.py               # Interfaz gráfica principal
-│   ├── motor.py             # Motor de conexión Python–Prolog
-│   ├── data/                # Archivos de datos (síntomas, registros, etc.)
-├── prolog/              # Carpeta de archivos .pl
-│   └── reglas_enfermedades.pl
+├── .venv/                     # Entorno virtual (NO se sube a GitHub)
 │
-├── requirements.txt
-└── README.md
+├── data/                      # Carpeta para guardar casos registrados
+│   └── casos.txt
+│
+├── prolog/                    # Archivos Prolog (base de conocimiento)
+│   ├── reglas_enfermedades.pl
+│   └── sistema_principal.pl
+│
+├── python/                    # Lógica principal en Python
+│   ├── app.py                 # App principal con interfaz amigable
+│   ├── gui.py                 # (Opcional) Interfaz alterna si la usas
+│   ├── motor.py               # Conexión entre Python y Prolog
+│   ├── __pycache__/           # Archivos temporales (se generan solos)
+│
+├── build/                     # Carpeta generada por PyInstaller (auto)
+├── dist/                      # Carpeta donde se crea el .exe (auto)
+│
+├── requirements.txt           # Librerías necesarias
+├── README.md                  # Guía del proyecto
+└── .gitignore                 # Ignora archivos innecesarios (como .venv/)
+
+
 ```
 
 ---
