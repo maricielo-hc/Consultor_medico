@@ -91,7 +91,7 @@ posible_enfermedad(U, migrana) :-
 % Reglas auxiliares basadas en duración
 % ------------------------------------
 
-% Verifica si un usuario tiene un síntoma con duración mínima
+% Verifica si un usuario tiene un síntoma con duración mínima 
 tiene_sintoma(U, Sintoma, MinDias) :-
     registro_sintoma(U, Sintoma, Dias),
     Dias >= MinDias.
