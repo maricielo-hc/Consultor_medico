@@ -27,7 +27,7 @@ Consultor_medico/
 No necesitas instalar nada, simplemente:
 
 1. Descarga el archivo `.zip` desde la última release:
-   👉 [Descargar aquí](https://github.com/maricielo-hc/Consultor_medico/releases/download/v1.0.0/Consultor_medico.zip)
+   👉 [Descargar aquí](https://github.com/maricielo-hc/Consultor_medico/releases/download/v1.0.0/Consultor_medico_v1.0.zip)
 2. Extrae el `.zip`.
 3. Abre el archivo `Consultor_medico.exe` y ejecutar.
 
