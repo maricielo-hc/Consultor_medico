@@ -1,8 +1,30 @@
 import tkinter as tk
 from tkinter import messagebox
+import sys
 import os
 from motor import MotorExperto
 from datetime import datetime
+
+import sys, os
+
+def ruta_recurso(ruta_relativa):
+    """Devuelve la ruta absoluta del recurso, compatible con PyInstaller"""
+    if hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, ruta_relativa)
+    return os.path.join(os.path.abspath("."), ruta_relativa)
+
+
+def resource_path(relative_path):
+    """Obtiene la ruta absoluta para PyInstaller y desarrollo."""
+    try:
+        base_path = sys._MEIPASS
+    except AttributeError:
+        base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+    return os.path.join(base_path, relative_path)
+
+
+
+
 
 # Lista de síntomas (tomados de tus reglas, con underscore)
 SINTOMAS = [
@@ -20,7 +42,10 @@ class ConsultorMedicoApp:
         self.root.geometry("520x640")
         self.root.configure(bg="#E8F7FF")
 
-        self.motor = MotorExperto()
+        # ----------- INICIALIZAR MOTOR -----------
+        ruta_reglas = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "prolog", "reglas_enfermedades.pl")
+        self.motor = MotorExperto(ruta_reglas)
+        # -----------------------------------------
 
         # Frames (tres pantallas)
         self.frame1 = tk.Frame(root, bg="#E8F7FF")
@@ -32,10 +57,10 @@ class ConsultorMedicoApp:
         self._build_frame3()
 
         self.frame1.pack(fill="both", expand=True)
-
         # estado temporal
         self.selected_sintomas = []
         self.dias = 1
+
 
     # ---------------- Frame 1: Datos personales ----------------
     def _build_frame1(self):
@@ -114,7 +139,10 @@ class ConsultorMedicoApp:
         btns.pack(pady=15)
         tk.Button(btns, text="💾 Guardar paciente", bg="#F7C46C", command=self._on_guardar).pack(side="left", padx=8)
         tk.Button(btns, text="🏠 Inicio", bg="#B3E5FC", command=self._to_frame1).pack(side="left", padx=8)
-
+        # En el frame de botones, agrega:
+        tk.Button(btns, text="📂 Abrir Carpeta Datos", 
+                  command=self._abrir_carpeta_datos, 
+                  bg="#A5D6A7").pack(side=tk.LEFT, padx=8)
     # ---------------- Navegación entre frames ----------------
     def _clear_frame(self, frame):
         for widget in frame.winfo_children():
@@ -127,7 +155,7 @@ class ConsultorMedicoApp:
         self.entry_edad.delete(0, tk.END)
         # limpiar síntomas seleccionados
         for var in self.check_vars.values():
-            var.set(0)
+            var.set(0) 
         self.entry_dias.delete(0, tk.END)
         self.entry_dias.insert(0, "1")
         self.result_text.config(text="")
@@ -202,6 +230,34 @@ class ConsultorMedicoApp:
         else:
             if "No se encontró" not in raw:
                 diagnosticos = [raw.strip()]
+
+    def _abrir_carpeta_datos(self):
+        """Abre la carpeta donde se guardan los datos"""
+        import subprocess
+        import os
+        
+        if getattr(sys, 'frozen', False):
+            # Para .exe - misma lógica que motor.py
+            data_dir = os.path.join(os.path.expanduser("~"), "ConsultorMedico_data")
+        else:
+            # Para desarrollo
+            data_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data")
+    
+        if os.path.exists(data_dir):
+            try:
+                subprocess.Popen(f'explorer "{data_dir}"')
+            except Exception as e:
+                messagebox.showinfo(
+                    "📂 Carpeta de Datos", 
+                    f"Ubicación:\n{data_dir}\n\n"
+                    f"Puedes copiar esta ruta en el Explorador de Windows"
+                )
+        else:
+            messagebox.showinfo(
+                "📂 Carpeta de Datos", 
+                f"La carpeta se creará al guardar el primer paciente:\n{data_dir}"
+            )
+
 
         # Guardar un archivo por paciente
         ruta_dir = os.path.join("data", "pacientes")
