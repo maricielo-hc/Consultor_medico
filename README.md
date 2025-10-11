@@ -43,7 +43,7 @@ pip install -r requirements.txt
 ### 📥 **PARA USUARIOS FINALES**
 
 #### ⭐ **Descargar aplicación portable**
-**[📥 Descargar ConsultorMedico-Portable.zip](https://github.com/MaricieloHuaman/Consultor_medico/releases)**
+**[📥 Descargar ConsultorMedico-Portable.zip](https://github.com/maricielo-hc/Consultor_medico/releases/download/v2.0/ConsultorMedico-Portable.zip)**
 
 #### 🎯 **Instalación (solo 3 pasos):**
 1. **Descarga** el archivo ZIP
